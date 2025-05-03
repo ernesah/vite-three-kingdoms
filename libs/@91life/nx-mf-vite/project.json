@@ -1,0 +1,48 @@
+{
+  "name": "@91life/nx-mf-vite",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/@91life/nx-mf-vite/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/@91life/nx-mf-vite",
+        "main": "libs/@91life/nx-mf-vite/src/index.ts",
+        "tsConfig": "libs/@91life/nx-mf-vite/tsconfig.lib.json",
+        "assets": [
+          "libs/@91life/nx-mf-vite/*.md",
+          {
+            "input": "./libs/@91life/nx-mf-vite/src",
+            "glob": "**/!(*.ts)",
+            "output": "./src"
+          },
+          {
+            "input": "./libs/@91life/nx-mf-vite/src",
+            "glob": "**/*.d.ts",
+            "output": "./src"
+          },
+          {
+            "input": "./libs/@91life/nx-mf-vite",
+            "glob": "generators.json",
+            "output": "."
+          },
+          {
+            "input": "./libs/@91life/nx-mf-vite",
+            "glob": "executors.json",
+            "output": "."
+          }
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/@91life/nx-mf-vite/jest.config.ts"
+      }
+    }
+  }
+}
