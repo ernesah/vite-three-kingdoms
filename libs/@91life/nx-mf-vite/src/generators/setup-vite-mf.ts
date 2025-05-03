@@ -81,6 +81,7 @@ function getPortForApp(name: string): number {
     auroria: 4201,
     borealis: 4202,
     cygnus: 4203,
+    shell: 4200,
   };
   return ports[name] ?? 4300;
 }

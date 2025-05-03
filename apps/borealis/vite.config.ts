@@ -18,6 +18,8 @@ export default defineConfig({
     port: 4202,
   },
   build: {
+    outDir: '../../dist/apps/borealis',
+    assetsDir: 'assets',
     target: 'esnext',
     minify: false,
     cssCodeSplit: false,

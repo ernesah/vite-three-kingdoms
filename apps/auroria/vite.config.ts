@@ -18,6 +18,8 @@ export default defineConfig({
     port: 4201,
   },
   build: {
+    outDir: '../../dist/apps/auroria',
+    assetsDir: 'assets',
     target: 'esnext',
     minify: false,
     cssCodeSplit: false,
