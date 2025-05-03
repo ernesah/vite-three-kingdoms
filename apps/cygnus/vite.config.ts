@@ -18,6 +18,8 @@ export default defineConfig({
     port: 4203,
   },
   build: {
+    outDir: '../../dist/apps/cygnus',
+    assetsDir: 'assets',
     target: 'esnext',
     minify: false,
     cssCodeSplit: false,
