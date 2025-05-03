@@ -19,7 +19,7 @@ export default async function setupViteMfGenerator(
 
   updateJson(tree, 'package.json', (json) => {
     json.devDependencies ??= {};
-    json.devDependencies['vite-plugin-federation'] = '0.0.1';
+    json.devDependencies['@originjs/vite-plugin-federation'] = '0.0.1';
     return json;
   });
 
