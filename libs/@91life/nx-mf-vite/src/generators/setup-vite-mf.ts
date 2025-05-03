@@ -19,7 +19,7 @@ export default async function setupViteMfGenerator(
 
   updateJson(tree, 'package.json', (json) => {
     json.devDependencies ??= {};
-    json.devDependencies['vite-plugin-federation'] = '^1.4.0';
+    json.devDependencies['vite-plugin-federation'] = '0.0.1';
     return json;
   });
 
@@ -47,10 +47,7 @@ export default defineConfig({
     federation({
       name: '${project}',
       filename: 'remoteEntry.js',${federationOptions}
-      shared: {
-        react: { singleton: true, eager: true },
-        'react-dom': { singleton: true, eager: true }
-      }
+      shared: ['react', 'react-dom']
     })
   ],
   server: {
