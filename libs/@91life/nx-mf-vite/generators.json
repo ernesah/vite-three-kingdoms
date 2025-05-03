@@ -1,0 +1,9 @@
+{
+  "generators": {
+    "setup-vite-mf": {
+      "factory": "./src/generators/setup-vite-mf",
+      "schema": "./src/generators/schema.json",
+      "description": "setup-vite-mf generator"
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "type": "object",
+  "properties": {
+    "project": {
+      "type": "string",
+      "description": "Target project name (e.g. auroria)"
+    },
+    "type": {
+      "type": "string",
+      "enum": ["remote", "host"],
+      "description": "Type of application (remote or host)"
+    }
+  },
+  "required": ["project", "type"]
+}
