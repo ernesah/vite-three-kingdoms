@@ -1,77 +1,93 @@
-# ViteThreeKingdoms
+# Vite of the Three Kingdoms
 
-<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
+This project demonstrates a **micro-frontend architecture** using **React**, **Vite**, **Module Federation**, and **Nx**. It includes one host application (`shell`) and three remote apps (`auroria`, `borealis`, `cygnus`), each exposing federated React components. The host dynamically consumes and renders components from the remotes.
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is almost ready ✨.
+This implementation follows patterns similar to [vite-plugin-federation examples](https://github.com/originjs/vite-plugin-federation/tree/main/packages/examples/react-vite) and is structured as an Nx monorepo using PNPM.
 
-[Learn more about this workspace setup and its capabilities](https://nx.dev/getting-started/intro#learn-nx?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
+---
 
-## Finish your remote caching setup
+## Requirements
 
-[Click here to finish setting up your workspace!](https://cloud.nx.app/connect/PRdSZUwbaq)
+- Node.js 18+
+- PNPM
+- Nx CLI (npm install -g nx)
 
+## Running the apps in preview mode
 
-## Run tasks
+#### 1. Install dependencies with PNPM
 
-To run tasks with Nx use:
-
-```sh
-npx nx <target> <project-name>
+```bash
+pnpm install
 ```
 
-For example:
+#### 2. Preview apps:
 
-```sh
-npx nx build myproject
+To preview the application (host and remotes) you must first build the apps.
+
+##### Build apps
+
+To build all apps at once:
+
+```bash
+pnpm build:all
 ```
 
-These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
+Or build them individually:
 
-[More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Add new projects
-
-While you could add new projects to your workspace manually, you might want to leverage [Nx plugins](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) and their [code generation](https://nx.dev/features/generate-code?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) feature.
-
-To install a new plugin you can use the `nx add` command. Here's an example of adding the React plugin:
-```sh
-npx nx add @nx/react
+```bash
+pnpm nx build auroria
+pnpm nx build borealis
+pnpm nx build cygnus
+pnpm nx build shell
 ```
 
-Use the plugin's generator to create new projects. For example, to create a new React app or library:
+You can also use these shortcuts:
 
-```sh
-# Generate an app
-npx nx g @nx/react:app demo
-
-# Generate a library
-npx nx g @nx/react:lib some-lib
+```bash
+pnpm build:remotes
+pnpm build:host
 ```
 
-You can use `npx nx list` to get a list of installed plugins. Then, run `npx nx list <plugin-name>` to learn about more specific capabilities of a particular plugin. Alternatively, [install Nx Console](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) to browse plugins and generators in your IDE.
+##### Preview apps
 
-[Learn more about Nx plugins &raquo;](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) | [Browse the plugin registry &raquo;](https://nx.dev/plugin-registry?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+To preview all apps concurrently:
 
+```bash
+pnpm preview:all
+```
 
-[Learn more about Nx on CI](https://nx.dev/ci/intro/ci-with-nx#ready-get-started-with-your-provider?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+This starts the apps at:
 
-## Install Nx Console
+- shell on http://localhost:4200
+- auroria on http://localhost:4201
+- borealis on http://localhost:4202
+- cygnus on http://localhost:4203
 
-Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
+To preview apps individually:
 
-[Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+```bash
+pnpm preview:auroria
+pnpm preview:borealis
+pnpm preview:cygnus
+pnpm preview:host
+```
 
-## Useful links
+#### 4. Access the Host App
 
-Learn more:
+Open [localhost:4200](http://localhost:4200/) to view the shell consuming components from remotes.
 
-- [Learn more about this workspace setup](https://nx.dev/getting-started/intro#learn-nx?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects)
-- [Learn about Nx on CI](https://nx.dev/ci/intro/ci-with-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Releasing Packages with Nx release](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [What are Nx plugins?](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+## Custom Nx Plugin
 
-And join the Nx community:
-- [Discord](https://go.nx.dev/community)
-- [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
-- [Our Youtube channel](https://www.youtube.com/@nxdevtools)
-- [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+This project includes a custom Nx plugin named nx-mf-vite that automates Vite + Module Federation configuration.
+
+To configure an app as a remote or host:
+
+```bash
+pnpm nx g @91life/nx-mf-vite:setup-vite-mf --project=<app-name> --type=remote|host
+```
+
+This sets up:
+
+- vite.config.ts with proper federation() options
+- A basic RemoteComponent.tsx for remotes (if missing)
+- Port assignments, shared dependencies, and build configuration
