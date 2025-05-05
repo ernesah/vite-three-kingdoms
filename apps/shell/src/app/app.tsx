@@ -7,9 +7,11 @@ const Cygnus = React.lazy(() => import('cygnus/Component'));
 export function App() {
   return (
     <Suspense fallback={<p>Loading...</p>}>
-      <Auroria />
-      <Borealis />
-      <Cygnus />
+      <div className="flex flex-col md:flex-row gap-4 justify-center items-center md:items-start">
+        <Auroria />
+        <Borealis />
+        <Cygnus />
+      </div>
     </Suspense>
   );
 }

@@ -14,46 +14,50 @@ export default async function setupViteMfGenerator(
   const { project, type } = options;
   const config = readProjectConfiguration(tree, project);
   const root = config.root;
-
   const viteConfigPath = joinPathFragments(root, 'vite.config.ts');
 
   updateJson(tree, 'package.json', (json) => {
     json.devDependencies ??= {};
-    json.devDependencies['@originjs/vite-plugin-federation'] = '0.0.1';
+    json.devDependencies['@originjs/vite-plugin-federation'] = '^1.4.1';
+    json.devDependencies['vite-tsconfig-paths'] = '^5.1.4';
     return json;
   });
 
   const federationOptions =
     type === 'remote'
       ? `
-      exposes: {
-        './Component': './src/RemoteComponent.tsx'
-      },`
+        exposes: {
+          './Component': './src/RemoteComponent.tsx'
+        },`
       : `
-      remotes: {
-        auroria: 'http://localhost:4201/assets/remoteEntry.js',
-        borealis: 'http://localhost:4202/assets/remoteEntry.js',
-        cygnus: 'http://localhost:4203/assets/remoteEntry.js',
-      },`;
+        remotes: {
+          auroria: 'http://localhost:4201/assets/remoteEntry.js',
+          borealis: 'http://localhost:4202/assets/remoteEntry.js',
+          cygnus: 'http://localhost:4203/assets/remoteEntry.js',
+        },`;
 
   const viteConfigContent = `
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import federation from '@originjs/vite-plugin-federation';
+import tsconfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig({
   plugins: [
+    tsconfigPaths(),
     react(),
     federation({
       name: '${project}',
       filename: 'remoteEntry.js',${federationOptions}
-      shared: ['react', 'react-dom']
+      shared: ['react', 'react-dom', 'styled-components']
     })
   ],
   server: {
     port: ${getPortForApp(project)}
   },
   build: {
+    outDir: '../../dist/apps/${project}',
+    assetsDir: 'assets',
     target: 'esnext',
     minify: false,
     cssCodeSplit: false

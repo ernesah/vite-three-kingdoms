@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@91life/nx-mf-vite": ["libs/@91life/nx-mf-vite/src/index.ts"]
+      "@91life/nx-mf-vite": ["libs/@91life/nx-mf-vite/src/index.ts"],
+      "@shared-ui": ["libs/shared-ui/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
