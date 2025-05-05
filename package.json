@@ -4,11 +4,14 @@
   "license": "MIT",
   "scripts": {
     "build:remotes": "pnpm nx build auroria && pnpm nx build borealis && pnpm nx build cygnus",
+    "build:host": "pnpm nx build shell",
+    "build:all": "pnpm build:remotes && pnpm build:host",
     "preview:auroria": "vite preview --port 4201 --base / --outDir dist/apps/auroria",
     "preview:borealis": "vite preview --port 4202 --base / --outDir dist/apps/borealis",
     "preview:cygnus": "vite preview --port 4203 --base / --outDir dist/apps/cygnus",
     "preview:remotes": "concurrently \"pnpm preview:auroria\" \"pnpm preview:borealis\" \"pnpm preview:cygnus\"",
-    "start:shell": "nx serve shell"
+    "preview:host": "vite preview --port 4200 --base / --outDir dist/apps/shell",
+    "preview:all": "concurrently \"pnpm preview:host\" \"pnpm preview:auroria\" \"pnpm preview:borealis\" \"pnpm preview:cygnus\""
   },
   "private": true,
   "devDependencies": {
